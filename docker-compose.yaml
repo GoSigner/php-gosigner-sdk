@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  php:
+    container_name: php-gosigner-sdk
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/var/www'
+    ports:
+      - "9000:80"
+    networks:
+      - gosigner-network
+networks:
+  gosigner-network:
+    driver: bridge

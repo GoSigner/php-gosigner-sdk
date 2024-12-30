@@ -1,0 +1,20 @@
+{
+    "name": "gosigner/php-gosigner-sdk",
+    "description": "SDK para integração com GoSigner",
+    "require": {
+      "php": "^7.2"
+    },
+    "autoload": {
+      "psr-4": {
+        "GoSigner\\SignerRequest": "src/SignerRequest/",
+        "GoSigner\\SignerResponse": "src/SignerResponse/",
+        "GoSigner\\ValidatorRequest": "src/ValidatorRequest/"
+      }
+    },
+    "scripts": {
+      "post-install-cmd": [
+        "php -r \"file_exists('vendor/autoload.php') || copy('vendor/autoload.php', 'autoload.php');\""
+      ]
+    }
+  }
+  
