@@ -20,7 +20,7 @@ class PayloadParser extends PayloadAbstract
 
     public function getFiles(){
         $files = [];
-        if(!empty($this->payloadData)){
+        if(!empty($this->payloadData) && !empty($this->payloadData['documents'])){
             foreach($this->payloadData['documents'] as $document){
                 $file = new File();
                 $file->setId($document['id']);
@@ -33,8 +33,24 @@ class PayloadParser extends PayloadAbstract
     }
 
     public function getPayloadCode(){
-        if(!empty($this->payloadData['payloadCode'])){
-            $this->payloadData['payloadCode'];
+        if(!empty($this->payloadData) && !empty($this->payloadData['payloadCode'])){
+            return $this->payloadData['payloadCode'];
+        }
+
+        return null;
+    }
+
+    public function getPayloadTokenSession(){
+        if(!empty($this->payloadData) && !empty($this->payloadData['token'])){
+            return $this->payloadData['token'];
+        }
+
+        return null;
+    }
+
+    public function getPayloadSelectedCertificateSession(){
+        if(!empty($this->payloadData) && !empty($this->payloadData['selectedCertificate'])){
+            return $this->payloadData['selectedCertificate'];
         }
 
         return null;

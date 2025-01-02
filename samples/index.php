@@ -13,8 +13,15 @@
     <div class="container py-5" id="app">
         <h1 class="mb-4">GoSigner Sample</h1>
 
-        <a href="/request-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal</button></a>
-        <a href="/request-view-simple.php"><button class="btn btn-info">Start With - Sign Simple URL</button></a>
+        <hr>
+        <p>Signature direct</p>
+        <a href="/request-sign-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+        <a href="/request-sign-view-simple.php"><button class="btn btn-info">Start With - Sign Simple URL (popup or redirect)</button></a>
+    
+        <hr>
+        <p>Open session, and sign after (only CLOUD provider)</p>
+        <a href="/request-session-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+        <a href="/request-session-view-simple.php"><button class="btn btn-info">Open session - Sign Simple URL (popup or redirect)</button></a>
     </div>
 </body>
 <!-- Vue.js -->

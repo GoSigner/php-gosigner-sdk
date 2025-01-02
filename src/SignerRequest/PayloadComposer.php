@@ -16,6 +16,7 @@ class PayloadComposer extends PayloadAbstract
     private $extraKeys;
     private $files;
     private $certificates;
+    private $session = [];
 
     public function getSkipCorsFileUrl(){
         return $this->skipCorsFile;
@@ -102,6 +103,13 @@ class PayloadComposer extends PayloadAbstract
         $this->files[] = $file;
     }
 
+    public function setSessionDescription($description){
+        $this->session = [
+            "description" => $description,
+            "request" => true
+        ];
+    }
+
     public function setCertificatesFilters($filters){
         
         foreach($filters as $filter){
@@ -167,6 +175,10 @@ class PayloadComposer extends PayloadAbstract
             $data['certificates'] = $this->certificates;
         }
 
+        if (!empty($this->session)) {
+            $data['session'] = $this->session;
+        }
+
         // Process 'callbackUrl' and 'webhookUrl' if they are not empty
         if (!empty($this->callbackUrl)) {
             $data['callbackUrl'] = $this->callbackUrl;
@@ -203,7 +215,7 @@ class PayloadComposer extends PayloadAbstract
         return $token;
     }
 
-    public function generateTokenLink( $onlyToken = true)
+    public function signForegroundLink( $onlyToken = true)
     {
         $baseUrl = $this->getBaseUrl();
 
@@ -269,5 +281,64 @@ class PayloadComposer extends PayloadAbstract
         throw new \RuntimeException("Failed to generate token");
     }
 
+    public function signBackground($token)
+    {
+        $tokenParts = explode(":",$token);
+        $username = $tokenParts[0];
+        $password = $tokenParts[1];
+
+        $passwordParts = explode("@", $password);
+        $bearerToken = $passwordParts[0];
+        $providerId = $passwordParts[1];
+
+        $baseUrl = $this->getBaseUrl();
+
+        // Data for the request
+        $url = rtrim($baseUrl, "/") . "/sign";
+
+        // Configure headers, timeout, and context for the POST request
+        $options = [
+            "http" => [
+                "header" => "Content-Type: application/json\r\nAuthorization: Bearer " . $bearerToken . "\r\n",
+                "method" => "POST",
+                "content" => $this->toJson(),
+                "timeout" => 60 * 3, // Set timeout to 60 seconds
+                "ignore_errors" => true, // Capture response even on HTTP error
+            ],
+        ];
+        $context = stream_context_create($options);
+
+        // Execute the request and capture the response
+        $response = file_get_contents($url, false, $context);
+
+        if ($response === false) {
+            throw new \RuntimeException("Failed to make HTTP request to $url");
+        }
+
+        // Parse HTTP response code from headers
+        $httpCode = null;
+        if (isset($http_response_header)) {
+            foreach ($http_response_header as $header) {
+                if (preg_match('/HTTP\/\d\.\d\s+(\d+)/', $header, $matches)) {
+                    $httpCode = (int) $matches[1];
+                    break;
+                }
+            }
+        }
+
+        // Handle specific HTTP errors
+        if (in_array($httpCode, [400, 401, 500])) {
+            throw new \RuntimeException("API error: HTTP status code $httpCode, response: " . $response, $httpCode);
+        }
+
+        // Decode the JSON response
+        $responseData = json_decode($response, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException("Failed to decode JSON response, status code: $httpCode, response: " . json_last_error_msg());
+        }
+
+        return $responseData;
+    }
 
 }
