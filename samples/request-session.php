@@ -32,6 +32,7 @@ try{
     $payloadUi->setButton("Abrir sessão");
     // $payloadUi->setUsername("04660457192"); // CPF or CNPJ
     $payloadUi->setColor("#FFFF00");
+    $payloadUi->setBg("#f9f9f9");
     $payloadUi->setScope("signature_session");
     $payloadUi->setLifetime(60 * 24 * 7); // 7 days
     $payloadUi->setPreferPreview("description");
@@ -50,6 +51,7 @@ try{
     // $payloadSecurity->setAllowChangeUsername(false);
     $payloadSecurity->setAllowEditLifetime(true);
     $payloadSecurity->setAllowEditScope(false);
+    $payloadSecurity->setAllowAutocontinue(true);
 
     $payloadSecurity->addProviderType("CLOUD"); //Only local is accept for session
     $payloadComposer->setSecurity($payloadSecurity);

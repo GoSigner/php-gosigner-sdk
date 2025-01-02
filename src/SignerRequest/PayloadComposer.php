@@ -146,6 +146,7 @@ class PayloadComposer extends PayloadAbstract
         }
 
         // Process 'files' array, converting each object to array if not empty
+        $data['files'] = [];
         if (!empty($this->files)) {
             $data['files'] = array_map(function ($file) {
                 return method_exists($file, 'toArray') ? $file->toArray() : $file;

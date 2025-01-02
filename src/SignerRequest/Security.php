@@ -7,6 +7,7 @@ class Security
     // Properties to store the flags
     private $allowAddNewDocument;
     private $allowChangeUsername;
+    private $allowAutocontinue;
     private $allowChangeName; //Only for eletronic provider
     private $allowChangeEmail; //Only for eletronic provider
     private $allowChangeCellphone; //Only for eletronic provider
@@ -50,6 +51,16 @@ class Security
     public function setAllowChangeUsername(bool $allowChangeUsername)
     {
         $this->allowChangeUsername = $allowChangeUsername;
+    }
+
+    public function getAllowAutocontinue()
+    {
+        return $this->allowAutocontinue;
+    }
+
+    public function setAllowAutocontinue(bool $allowAutocontinue)
+    {
+        $this->allowAutocontinue = $allowAutocontinue;
     }
 
     public function getAllowChangeName()
@@ -190,6 +201,7 @@ class Security
         $data = [];
         $properties = [
             'allowAddNewDocument',
+            'allowAutocontinue',
             'allowChangeUsername',
             'allowChangeName',
             'allowChangeEmail',
