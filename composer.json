@@ -6,9 +6,7 @@
     },
     "autoload": {
       "psr-4": {
-        "GoSigner\\SignerRequest": "src/SignerRequest/",
-        "GoSigner\\SignerResponse": "src/SignerResponse/",
-        "GoSigner\\ValidatorRequest": "src/ValidatorRequest/"
+        "GoSigner\\": "src/"
       }
     },
     "scripts": {

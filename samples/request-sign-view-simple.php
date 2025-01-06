@@ -34,6 +34,7 @@
                 <p><strong>Payload Data (Base64 encoded):</strong></p>
                 <pre><?= base64_encode($payloadData) ?></pre>
                 <p><strong>Payload Token:</strong> <?= $payloadToken ?></p>
+                <p><strong>Partner/SharedUser:</strong> <?= SHARED_USER ?></p>
             </div>
         </div>
         <?php endif; ?>
