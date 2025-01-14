@@ -11,6 +11,14 @@ class SignatureSetting
     private $visibleSignY;
     private $visibleSignWidth;
     private $visibleSignHeight;
+    private $visibleSignatureCustomTemplateSrc;
+    private $visibleSignatureDateFormat;
+    private $visibleSignatureGeneratorName;
+    private $visibleSignatureGeneratorDocument;
+    private $visibleSignatureGeneratorFooter;
+    private $visibleSignatureGeneratorHeader;
+    private $visibleSignatureGeneratorMarkerSrc;
+    private $visibleSignatureGeneratorBackgroundSrc;
     private $policy;
 
     // List of allowed types
@@ -136,6 +144,86 @@ class SignatureSetting
         $this->visibleSignHeight = $height;
     }
 
+    public function getVisibleSignatureCustomTemplateSrc()
+    {
+        return $this->visibleSignatureCustomTemplateSrc;
+    }
+
+    public function setVisibleSignatureCustomTemplateSrc($src)
+    {
+        $this->visibleSignatureCustomTemplateSrc = $src;
+    }
+
+    public function getVisibleSignatureDateFormat()
+    {
+        return $this->visibleSignatureDateFormat;
+    }
+
+    public function setVisibleSignatureDateFormat($format)
+    {
+        $this->visibleSignatureDateFormat = $format;
+    }
+
+    public function getVisibleSignatureGeneratorName()
+    {
+        return $this->visibleSignatureGeneratorName;
+    }
+
+    public function setVisibleSignatureGeneratorName($name)
+    {
+        $this->visibleSignatureGeneratorName = $name;
+    }
+
+    public function getVisibleSignatureGeneratorDocument()
+    {
+        return $this->visibleSignatureGeneratorDocument;
+    }
+
+    public function setVisibleSignatureGeneratorDocument($document)
+    {
+        $this->visibleSignatureGeneratorDocument = $document;
+    }
+
+    public function getVisibleSignatureGeneratorFooter()
+    {
+        return $this->visibleSignatureGeneratorFooter;
+    }
+
+    public function setVisibleSignatureGeneratorFooter($footer)
+    {
+        $this->visibleSignatureGeneratorFooter = $footer;
+    }
+
+    public function getVisibleSignatureGeneratorHeader()
+    {
+        return $this->visibleSignatureGeneratorHeader;
+    }
+
+    public function setVisibleSignatureGeneratorHeader($header)
+    {
+        $this->visibleSignatureGeneratorHeader = $header;
+    }
+
+    public function getVisibleSignatureGeneratorMarkerSrc()
+    {
+        return $this->visibleSignatureGeneratorMarkerSrc;
+    }
+
+    public function setVisibleSignatureGeneratorMarkerSrc($src)
+    {
+        $this->visibleSignatureGeneratorMarkerSrc = $src;
+    }
+
+    public function getVisibleSignatureGeneratorBackgroundSrc()
+    {
+        return $this->visibleSignatureGeneratorBackgroundSrc;
+    }
+
+    public function setVisibleSignatureGeneratorBackgroundSrc($src)
+    {
+        $this->visibleSignatureGeneratorBackgroundSrc = $src;
+    }
+
     // Method to convert the SignatureSettings object into an array
     public function toArray(): array
     {
@@ -148,7 +236,15 @@ class SignatureSetting
             'visibleSignX',
             'visibleSignY',
             'visibleSignWidth',
-            'visibleSignHeight'
+            'visibleSignHeight',
+            'visibleSignatureCustomTemplateSrc',
+            'visibleSignatureDateFormat',
+            'visibleSignatureGeneratorName',
+            'visibleSignatureGeneratorDocument',
+            'visibleSignatureGeneratorFooter',
+            'visibleSignatureGeneratorHeader',
+            'visibleSignatureGeneratorMarkerSrc',
+            'visibleSignatureGeneratorBackgroundSrc'
         ];
 
         // Check each property and add it to the array if it is not empty

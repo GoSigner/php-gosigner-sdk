@@ -39,7 +39,7 @@ abstract class PayloadAbstract
                $baseUrl = "https://api-dev.gosigner.com.br";
                break;
            case "LOCAL":
-               $baseUrl = "http://192.168.1.128:8081"; // Internal Gosigner usage
+               $baseUrl = "http://192.168.0.127:8081"; // Internal Gosigner usage
                break;
            default:
                throw new \InvalidArgumentException("Invalid environment: " . $this->env);

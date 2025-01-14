@@ -32,7 +32,7 @@ try{
     // $payloadUi->setUsername("04660457192"); // CPF or CNPJ
     $payloadUi->setColor("#FFFF00");
     $payloadUi->setScope("signature_session");
-    $payloadUi->setLifetime(60 * 24 * 7); // 7 days
+    $payloadUi->setLifetime(60 * 60 * 24 * 7); // 7 days in seconds
     $payloadUi->setPreferPreview("file");
     $payloadComposer->setUi($payloadUi);
 
@@ -47,8 +47,8 @@ try{
 
     $payloadSecurity = new Security();
     // $payloadSecurity->setAllowChangeUsername(false);
-    $payloadSecurity->setAllowEditLifetime(false);
-    $payloadSecurity->setAllowEditScope(false);
+    $payloadSecurity->setAllowEditLifetime(true);
+    $payloadSecurity->setAllowEditScope(true);
 
     //Allow return only code to download
     $payloadSecurity->setPayloadCallbackUrl(false);
@@ -79,7 +79,8 @@ try{
     $file2SignatureSettings = new SignatureSetting();
     $file2SignatureSettings->setType("DOC-pdf");
     $file2SignatureSettings->setPolicy("PAdES-AD_RB");
-    $file2SignatureSettings->setVisibleSignAppearanceConfig(1, 390, 10, 200, 28);
+    $file2SignatureSettings->setVisibleSignatureCustomTemplateSrc("https://gestao-online-sites.s3.sa-east-1.amazonaws.com/gocrypto.com.br/assets/tests/template.html");
+    $file2SignatureSettings->setVisibleSignAppearanceConfig(1, 390, 300, 200, 28);
     $file2->setSignatureSetting($file2SignatureSettings);
     $payloadComposer->addFile($file2);
 

@@ -8,7 +8,7 @@ use \GoSigner\SignerRequest\Ui;
 use \GoSigner\SignerRequest\Security;
 use \GoSigner\SignerRequest\SignatureSetting;
 
-const ENV = "SANDBOX"; //For production, use PROD
+const ENV = "LOCAL"; //For production, use PROD
 const SHARED_USER = "sample"; //For testing only, for a PoC require your credential
 const SHARED_KEY = "5daef7d64f955e1d3e61045001036d40"; //For testing only, for a PoC require your credential
 
@@ -34,7 +34,7 @@ try{
     $payloadUi->setColor("#FFFF00");
     $payloadUi->setBg("#f9f9f9");
     $payloadUi->setScope("signature_session");
-    $payloadUi->setLifetime(60 * 24 * 7); // 7 days
+    $payloadUi->setLifetime(60 * 60 * 24 * 7); // 7 days in seconds
     $payloadUi->setPreferPreview("description");
     $payloadComposer->setUi($payloadUi);
 
@@ -49,7 +49,7 @@ try{
 
     $payloadSecurity = new Security();
     // $payloadSecurity->setAllowChangeUsername(false);
-    $payloadSecurity->setAllowEditLifetime(true);
+    $payloadSecurity->setAllowEditLifetime(false);
     $payloadSecurity->setAllowEditScope(false);
     $payloadSecurity->setAllowAutocontinue(true);
 
@@ -59,6 +59,7 @@ try{
     $payloadComposer->setSessionDescription("Ao autorizar, você permite que o software EXEMPLO 123 utilize o seu certificado. Finalidades de Xpto1, xpto2 etc");
 
     $payloadData = $payloadComposer->toJson();
+
     $payloadToken = $payloadComposer->generateToken();
     $apiToken = $payloadComposer->signForegroundLink(true);
     $apiUiLinkWithToken = $payloadComposer->signForegroundLink(false);

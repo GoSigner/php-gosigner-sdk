@@ -7,7 +7,7 @@ use \GoSigner\SignerResponse\PayloadParser;
 use \GoSigner\SignerRequest\PayloadComposer;
 use \GoSigner\SignerRequest\SignatureSetting;
 
-const ENV = "SANDBOX"; //For production, use PROD
+const ENV = "LOCAL"; //For production, use PROD
 const SHARED_USER = "sample"; //For testing only, for a PoC require your credential
 const SHARED_KEY = "5daef7d64f955e1d3e61045001036d40"; //For testing only, for a PoC require your credential
 
@@ -52,20 +52,21 @@ try {
         $file1->setSrc("https://www.gemboxsoftware.com/pdf/examples/204/resources/Hello%20World.pdf"); 
         $file1SignatureSettings = new SignatureSetting();
         $file1SignatureSettings->setType("DOC-pdf");
-        $file1SignatureSettings->setVisibleSignAppearanceConfig(1, 390, 10, 200, 28);
+        $file1SignatureSettings->setVisibleSignatureCustomTemplateSrc("https://gestao-online-sites.s3.sa-east-1.amazonaws.com/gocrypto.com.br/assets/tests/template.html");
+        $file1SignatureSettings->setVisibleSignAppearanceConfig(1, 150, 300, 200, 28);
         $file1->setSignatureSetting($file1SignatureSettings);
         $payloadComposer->addFile($file1); 
 
-        $file2 = new File();
-        $file2->setName("My file name sample 2");
-        $file2->setDescription("My file description sample 2");
-        $file2->setSrc("https://www.gemboxsoftware.com/pdf/examples/204/resources/Hello%20World.pdf"); 
-        $file2SignatureSettings = new SignatureSetting();
-        $file2SignatureSettings->setType("DOC-pdf");
-        $file2SignatureSettings->setPolicy("PAdES-AD_RB");
-        $file2SignatureSettings->setVisibleSignAppearanceConfig(1, 390, 10, 200, 28);
-        $file2->setSignatureSetting($file2SignatureSettings);
-        $payloadComposer->addFile($file2);
+        // $file2 = new File();
+        // $file2->setName("My file name sample 2");
+        // $file2->setDescription("My file description sample 2");
+        // $file2->setSrc("https://www.gemboxsoftware.com/pdf/examples/204/resources/Hello%20World.pdf"); 
+        // $file2SignatureSettings = new SignatureSetting();
+        // $file2SignatureSettings->setType("DOC-pdf");
+        // $file2SignatureSettings->setPolicy("PAdES-AD_RB");
+        // $file2SignatureSettings->setVisibleSignAppearanceConfig(1, 390, 10, 200, 28);
+        // $file2->setSignatureSetting($file2SignatureSettings);
+        // $payloadComposer->addFile($file2);
 
         // echo "Selected certificate: " . $payloadParserSession->getPayloadSelectedCertificateSession() . PHP_EOL;
         // echo "Token session: " . $payloadParserSession->getPayloadTokenSession() . PHP_EOL;
