@@ -8,7 +8,7 @@ use \GoSigner\SignerRequest\Ui;
 use \GoSigner\SignerRequest\Security;
 use \GoSigner\SignerRequest\SignatureSetting;
 
-const ENV = "LOCAL"; //For production, use PROD
+const ENV = "SANDBOX"; //For production, use PROD
 const SHARED_USER = "sample"; //For testing only, for a PoC require your credential
 const SHARED_KEY = "5daef7d64f955e1d3e61045001036d40"; //For testing only, for a PoC require your credential
 
