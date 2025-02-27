@@ -13,15 +13,32 @@
     <div class="container py-5" id="app">
         <h1 class="mb-4">GoSigner Sample</h1>
 
-        <hr>
-        <p>Signature direct</p>
-        <a href="/request-sign-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
-        <a href="/request-sign-view-simple.php"><button class="btn btn-info">Start With - Sign Simple URL (popup or redirect)</button></a>
-    
-        <hr>
-        <p>Open session, and sign after (only CLOUD provider)</p>
-        <a href="/request-session-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
-        <a href="/request-session-view-simple.php"><button class="btn btn-info">Open session - Sign Simple URL (popup or redirect)</button></a>
+        <div>
+            <h4 class="text text-center">Digital Signature</h4>
+            <hr>
+            <p>Signature direct</p>
+            <a href="/request-sign-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+            <a href="/request-sign-view-simple.php"><button class="btn btn-info">Start With - Sign Simple URL (popup or redirect)</button></a>
+        
+            <hr>
+            <p>Open session, and sign after (only CLOUD provider)</p>
+            <a href="/request-session-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+            <a href="/request-session-view-simple.php"><button class="btn btn-info">Open session - Sign Simple URL (popup or redirect)</button></a>
+        </div>
+
+        <div>
+            <h4 class="text text-center m-4">Eletronic Signature</h4>
+
+            <hr>
+            <p>Signature direct</p>
+            <a href="/request-sign-eletronic-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+            <a href="/request-sign-eletronic-view-simple.php"><button class="btn btn-info">Start With - Sign Simple URL (popup or redirect)</button></a>
+        
+            <hr>
+            <p>Open session, and sign after</p>
+            <a href="/request-session-eletronic-view-modal.php"><button class="btn btn-info">Start With - Sign View Modal (embed)</button></a>
+            <a href="/request-session-eletronic-view-simple.php"><button class="btn btn-info">Open session - Sign Simple URL (popup or redirect)</button></a>
+        </div>
     </div>
 </body>
 <!-- Vue.js -->

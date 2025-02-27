@@ -39,7 +39,7 @@ try {
     }
 
     //Did everything go ok? Use session token to sign a mocked PDF file (Storage this: selected certificate and token session)
-    if(!empty($payloadParserSession->getPayloadSelectedCertificateSession())){
+    if(!empty($payloadParserSession->getPayloadSelectedCertificateSession() || $payloadParserSession->getPayloadData()['provider'] == 'ELETRONIC')){
         
         $payloadComposer = new PayloadComposer();
         $payloadComposer->setEnv(ENV);
@@ -122,7 +122,7 @@ try {
         <?php endif; ?>
 
 
-        <?php if (!empty($payloadComposer->toArray())): ?>
+        <?php if (!empty($payloadComposer) && !empty($payloadComposer->toArray())): ?>
             <div class="card mb-4">
                 <div class="card-header bg-success text-white">Data sended to API (Part 2)</div>
                 <div class="card-body">
