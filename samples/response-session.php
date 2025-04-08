@@ -137,7 +137,7 @@ try {
                 <div class="card-header bg-success text-white">Data returned via API (Part 2)</div>
                 <div class="card-body">
                     <p><strong>Payload Data (Base64 decoded):</strong></p>
-                    <pre><?= json_encode($payloadDataResponse, JSON_PRETTY_PRINT); ?></pre>
+                    <pre id="pluginResponse"><?= json_encode($payloadDataResponse, JSON_PRETTY_PRINT); ?></pre>
                 </div>
             </div>
         <?php endif; ?>
@@ -161,8 +161,135 @@ try {
             </div>
         <?php endif; ?>
 
+        <!-- Spinner async waiting locale call -->
+        <div id="loading-spinner" class="mb-3" style=" display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(255,255,255,0.7); /* fundo semitransparente */ z-index: 9999; align-items: center; justify-content: center;">
+            <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+            </div>
+        </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Qs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/qs/dist/qs.min.js"></script>
+
+    <?php if(!empty($payloadDataResponse['repeatRequestWithComplement'])):?>
+    <script>
+        window.addEventListener('load', function () {
+
+            //Make local request (to connect locale plugin)
+            var responseData = <?php echo json_encode($payloadDataResponse, JSON_PRETTY_PRINT); ?>;
+                if (responseData['callPlugin'] !== undefined) {
+                    let promise = new Promise((res, rej) => {
+
+                        //Sleep await load or error
+                        var img = document.createElement('img');
+                        img.src = responseData['callPlugin'];
+
+                        const spinner = document.getElementById("loading-spinner");
+                        spinner.style.display = "flex"; // show spinner
+                        
+                        img.onload = function () {
+
+                            spinner.style.display = "none"; // hide spinner
+
+                            <?php
+                                
+                            $token = $payloadParserSession->getPayloadTokenSession();
+                            $tokenParts = explode(":",$token);
+                            $username = $tokenParts[0];
+                            $password = $tokenParts[1];
+                    
+                            $passwordParts = explode("@", $password);
+                            $bearerToken = $passwordParts[0];
+                            $providerId = $passwordParts[1];    
+                            ?>
+
+
+                            var baseUrl = "<?= $payloadParserSession->getBaseUrl()?>/sign?";
+                            var token = "<?= $bearerToken;?>";
+
+                            var urlParams = [];
+                            if (responseData['repeatRequestWithComplement'] !== undefined) {
+                                for (var paramName in responseData['repeatRequestWithComplement']) {
+                                    urlParams[paramName] = responseData['repeatRequestWithComplement'][paramName];
+                                }
+                            }
+
+                            var newUrl = baseUrl + Qs.stringify(urlParams);
+                            console.log("Local plugin called, with success: " + newUrl);
+
+                            axios({
+                                method: "POST",
+                                data: {},
+                                url: newUrl,
+                                headers: {
+                                    'Authorization': token
+                                }
+                            }).then(function (response) {
+                                
+                                switch(response.data.code){
+                                        case "SIGNED_OK_LOCAL":
+                                        case "SIGNED_OK":
+                                            console.log("Assinado com sucesso");
+                                            var data = response.data;
+                                            document.getElementById("pluginResponse").textContent = JSON.stringify(data); //Replace on html (sample page)
+                                            break;
+
+                                    }
+                            })
+                            .catch(function (error) {
+                                if(error.response.data.code !== undefined){
+                                    switch(error.response.data.code){
+                                        case "FORCE_REPEAT":
+                                            console.log("Request repeat this request"); //Attention for loop prevent
+                                            break;
+                                        case "INVALID_PARAM":
+                                            alert("Parâmetro inválido ao assinar");
+                                            break;
+                                        case "INVALID_DEFAULT_CERTIFICATE":
+                                            alert("Não foi selecionado um certificado");
+                                            break;
+                                        case "DOCUMENTS_NOT_SIGNED":
+                                            alert("Os documentos ainda não foram assinados, aguarde alguns segundos e tente novamente");
+                                            break;
+                                        case "INVALID_TRANSACTION_ID":
+                                            alert("ID de transação (assinatura) inválida");
+                                            break;
+                                        case "INVALID_TRANSACTION_ACTION":
+                                            alert("Ação invaĺida na transação");
+                                            break;
+                                        case "INVALID_RAW_SIGNATURE":
+                                            alert("Falha ao checar bytes de criptografia e integridade após a assinatura");
+                                            break;
+                                        case "UNKNOWN_ERROR_WHEN_SIGNING_0":
+                                        case "UNKNOWN_ERROR_WHEN_SIGNING_1":
+                                        case "UNKNOWN_ERROR_WHEN_SIGNING_3":
+                                            alert("Erro interno durante a assinatura");
+                                            break;
+
+                                    }
+                                }
+                                else{
+                                    alert("Um erro desconhecido ocorreu");
+                                }
+                                return 0;
+                            });
+                        };
+                        img.onerror = function () {
+
+                            spinner.style.display = "none"; // hide spinner
+
+                            alert("Fail on call locale plugin");
+                        };
+                    });
+                }
+            });
+    </script>
+    <?php endif; ?>
 </body>
 
 </html>
